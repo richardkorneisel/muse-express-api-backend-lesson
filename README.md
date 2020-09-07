@@ -341,6 +341,14 @@ module.exports = router;
 
 </details>
 
+<br>
+
+## Heroku Deployment
+
+- [node-express-heroku-deployment](https://git.generalassemb.ly/jdr-0622/node-express-heroku-deployment)
+
+<br>
+
 ## Additional Resources
 
 - [Fruit App Solution](https://git.generalassemb.ly/jdr-0622/fruit-app-in-class)
