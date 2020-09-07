@@ -22,7 +22,7 @@ router.get("/profile/:id", async (req, res) => {
 
 // GET ALL ARTISTS
 router.get("/", async (req, res) => {
-  let allArtists = await ArtistModel.findAll();
+  let allArtists = await ArtistModel.findAll({ include: SongModel });
   res.json({ allArtists });
 });
 
