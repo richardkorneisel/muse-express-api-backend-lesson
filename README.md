@@ -169,13 +169,198 @@ We'll need 4 tables:
 
 1. Run the seeds: `npx sequelize db:seed:all`
 
+<br>
+
+## Create some User routes
+
+1. `GET` - `localhost:3000/api/users/profile/:id` will return JSON for a user's profile. We're provided a profile route, but let's also return a user's favorite artists also.
+
+   ```js
+   // GET USER PROFILE
+   router.get("/profile/:id", (req, res) => {
+     console.log(req.user);
+     UserModel.findByPk(req.params.id, { include: ArtistModel }).then(
+       (userProfile) => {
+         res.json({
+           user: userProfile,
+         });
+       }
+     );
+   });
+   ```
+
+   ![](https://i.imgur.com/xHLcTkx.png)
+
+2. `GET` - `localhost:3000/api/users` will return all users with their songs
+
+   ```js
+   // GET ALL USERS
+   router.get("/", (req, res) => {
+     UserModel.findAll().then((allUsers) => {
+       res.json({
+         users: allUsers,
+       });
+     });
+   });
+   ```
+
+   ![](https://i.imgur.com/v4EV6cR.png)
+
+3. `POST` - `localhost:3000/api/users` will create a new user. VERY IMPORTANT, in Postman...
+
+   - Make sure you're sending a `POST` request
+   - Make sure the `Body` of your request is set to `raw` `JSON`. This is how React will send data to the backend.
+   - Make sure your object keys are in quotes
+   - Check the screenshot below for an example
+
+   ```js
+   // CREATE A NEW USER
+   router.post("/", (req, res) => {
+     UserModel.create(req.body).then((newUser) => {
+       res.json({
+         user: newUser,
+       });
+     });
+   });
+   ```
+
+   ![](https://i.imgur.com/i8mOSr3.png)
+
+4. `PUT` - `localhost:3000/api/users/:id` will update an existing user. VERY IMPORTANT, in Postman...
+
+   - Make sure you're sending a `PUT` request
+   - Make sure the `Body` of your request is set to `raw` `JSON`. This is how React will send data to the backend.
+   - Make sure your object keys are in quotes
+   - Note, any keys that aren't sent in `req.body` won't be changed
+   - Check the screenshot below for an example
+
+   ```js
+   // UPDATE A USER
+   router.put("/:id", (req, res) => {
+     UserModel.update(req.body, {
+       where: { id: req.params.id },
+       returning: true,
+     }).then((updatedUser) => {
+       res.json({
+         user: updatedUser,
+       });
+     });
+   });
+   ```
+
+   ![](https://i.imgur.com/uapioip.png)
+
+5. `DELETE` - `localhost:3000/api/users/:id` will delete a user. VERY IMPORTANT, in Postman...
+
+   - Make sure you're sending a `DELETE` request
+   - Check the screenshot below for an example
+
+   ```js
+   // DELETE A USER
+   router.delete("/:id", (req, res) => {
+     UserModel.destroy({
+       where: { id: req.params.id },
+     }).then(() => {
+       res.json({
+         message: `User with id ${req.params.id} was deleted`,
+       });
+     });
+   });
+   ```
+
+   ![](https://i.imgur.com/MugmtZ8.png)
+
+<br>
+
+## YOU DO: Create some Artist routes
+
+1. Create an `controllers/artistsController.js` controller file.
+2. `require` and `app.use()` the route in `server.js`
+3. Build these 5 routes
+
+   - `GET` - `localhost:3000/api/artists/profile/:id`
+     - This route should return the users that favorited an Artist
+     - Inside of `include` see if you can only return the `name` and `id` `attributes` for a UserModel
+   - `GET` - `localhost:3000/api/artists`
+   - `POST` - `localhost:3000/api/artists`
+   - `PUT` - `localhost:3000/api/artists/:id`
+   - `DELETE` - `localhost:3000/api/artists/:id`
+
+<details>
+   <summary>artistsController file</summary>
+
+```js
+const express = require("express");
+const router = express.Router();
+
+const UserModel = require("../models").User;
+const ArtistModel = require("../models").Artist;
+
+// GET ARTIST PROFILE
+router.get("/profile/:id", (req, res) => {
+  ArtistModel.findByPk(req.params.id, {
+    include: [
+      {
+        model: UserModel,
+        attributes: ["id", "name"],
+      },
+    ],
+  }).then((artistProfile) => {
+    res.json({
+      artist: artistProfile,
+    });
+  });
+});
+
+// GET ALL ARTISTS
+router.get("/", (req, res) => {
+  ArtistModel.findAll().then((allArtists) => {
+    res.json({
+      artists: allArtists,
+    });
+  });
+});
+
+// CREATE A NEW ARTIST
+router.post("/", (req, res) => {
+  ArtistModel.create(req.body).then((newArtist) => {
+    res.json({
+      artist: newArtist,
+    });
+  });
+});
+
+// UPDATE A ARTIST
+router.put("/:id", (req, res) => {
+  ArtistModel.update(req.body, {
+    where: { id: req.params.id },
+    returning: true,
+  }).then((updatedArtist) => {
+    res.json({
+      artist: updatedArtist,
+    });
+  });
+});
+
+// DELETE A ARTIST
+router.delete("/:id", (req, res) => {
+  ArtistModel.destroy({
+    where: { id: req.params.id },
+  }).then(() => {
+    res.json({
+      message: `Artist with id ${req.params.id} was deleted`,
+    });
+  });
+});
+
+module.exports = router;
+```
+
+</details>
+
 ## Additional Resources
 
 - [Fruit App Solution](https://git.generalassemb.ly/jdr-0622/fruit-app-in-class)
 - [Pokemon Express Solution](https://git.generalassemb.ly/jdr-0622/pokemon-express-sequelize6)
 - [Google Routes Spreadsheet](https://docs.google.com/spreadsheets/d/14-LHKXLtEkp_vKEz3qSKjREnrmSyzQ9fimTlmrPsZsQ/edit#gid=0)
 - [JSON Web Tokens](https://jwt.io/)
-
-```
-
-```
