@@ -177,15 +177,11 @@ We'll need 4 tables:
 
    ```js
    // GET USER PROFILE
-   router.get("/profile/:id", (req, res) => {
-     console.log(req.user);
-     UserModel.findByPk(req.params.id, { include: ArtistModel }).then(
-       (userProfile) => {
-         res.json({
-           user: userProfile,
-         });
-       }
-     );
+   router.get("/profile/:id", async (req, res) => {
+     let user = await UserModel.findByPk(req.params.id, {
+       include: ArtistModel,
+     });
+     res.json({ user });
    });
    ```
 
@@ -195,12 +191,9 @@ We'll need 4 tables:
 
    ```js
    // GET ALL USERS
-   router.get("/", (req, res) => {
-     UserModel.findAll().then((allUsers) => {
-       res.json({
-         users: allUsers,
-       });
-     });
+   router.get("/", async (req, res) => {
+     let users = await UserModel.findAll();
+     res.json({ users });
    });
    ```
 
@@ -215,12 +208,9 @@ We'll need 4 tables:
 
    ```js
    // CREATE A NEW USER
-   router.post("/", (req, res) => {
-     UserModel.create(req.body).then((newUser) => {
-       res.json({
-         user: newUser,
-       });
-     });
+   router.post("/", async (req, res) => {
+     let user = await UserModel.create(req.body);
+     res.json({ user });
    });
    ```
 
@@ -236,15 +226,12 @@ We'll need 4 tables:
 
    ```js
    // UPDATE A USER
-   router.put("/:id", (req, res) => {
-     UserModel.update(req.body, {
+   router.put("/:id", async (req, res) => {
+     let user = await UserModel.update(req.body, {
        where: { id: req.params.id },
        returning: true,
-     }).then((updatedUser) => {
-       res.json({
-         user: updatedUser,
-       });
      });
+     res.json({ user });
    });
    ```
 
@@ -257,13 +244,12 @@ We'll need 4 tables:
 
    ```js
    // DELETE A USER
-   router.delete("/:id", (req, res) => {
-     UserModel.destroy({
+   router.delete("/:id", async (req, res) => {
+     await UserModel.destroy({
        where: { id: req.params.id },
-     }).then(() => {
-       res.json({
-         message: `User with id ${req.params.id} was deleted`,
-       });
+     });
+     res.json({
+       message: `User with id ${req.params.id} was deleted`,
      });
    });
    ```
@@ -272,7 +258,7 @@ We'll need 4 tables:
 
 <br>
 
-## YOU DO: Create some Artist routes
+## YOU DO: Create new song and Artist routes
 
 1. Create an `controllers/artistsController.js` controller file.
 2. `require` and `app.use()` the route in `server.js`
@@ -285,6 +271,13 @@ We'll need 4 tables:
    - `POST` - `localhost:3000/api/artists`
    - `PUT` - `localhost:3000/api/artists/:id`
    - `DELETE` - `localhost:3000/api/artists/:id`
+   - `POST` - `localhost:3000/api/artists/:id/newsong`
+
+     - This route should create a new song for an artist.
+     - It will return the Artist and the New Song
+     - [See if you can do it this way](https://sequelize.org/master/manual/assocs.html)
+
+     ![](https://i.imgur.com/nBGNf0c.png)
 
 <details>
    <summary>artistsController file</summary>
@@ -295,61 +288,51 @@ const router = express.Router();
 
 const UserModel = require("../models").User;
 const ArtistModel = require("../models").Artist;
+const SongModel = require("../models").Song;
+
+// CREATE A NEW SONG FOR AN ARTIST
+router.post("/:id/newsong", async (req, res) => {
+  let artist = await ArtistModel.findByPk(req.params.id);
+  let song = await artist.createSong(req.body);
+  res.json({ artist, song });
+});
 
 // GET ARTIST PROFILE
-router.get("/profile/:id", (req, res) => {
-  ArtistModel.findByPk(req.params.id, {
-    include: [
-      {
-        model: UserModel,
-        attributes: ["id", "name"],
-      },
-    ],
-  }).then((artistProfile) => {
-    res.json({
-      artist: artistProfile,
-    });
+router.get("/profile/:id", async (req, res) => {
+  let artist = await ArtistModel.findByPk(req.params.id, {
+    include: [{ model: UserModel, attributes: ["id", "name"] }],
   });
+  res.json({ artist });
 });
 
 // GET ALL ARTISTS
-router.get("/", (req, res) => {
-  ArtistModel.findAll().then((allArtists) => {
-    res.json({
-      artists: allArtists,
-    });
-  });
+router.get("/", async (req, res) => {
+  let allArtists = await ArtistModel.findAll();
+  res.json({ allArtists });
 });
 
 // CREATE A NEW ARTIST
-router.post("/", (req, res) => {
-  ArtistModel.create(req.body).then((newArtist) => {
-    res.json({
-      artist: newArtist,
-    });
-  });
+router.post("/", async (req, res) => {
+  let newArtist = await ArtistModel.create(req.body);
+  res.json({ newArtist });
 });
 
 // UPDATE A ARTIST
-router.put("/:id", (req, res) => {
-  ArtistModel.update(req.body, {
+router.put("/:id", async (req, res) => {
+  let updatedArtist = await ArtistModel.update(req.body, {
     where: { id: req.params.id },
     returning: true,
-  }).then((updatedArtist) => {
-    res.json({
-      artist: updatedArtist,
-    });
   });
+  res.json({ updatedArtist });
 });
 
 // DELETE A ARTIST
-router.delete("/:id", (req, res) => {
-  ArtistModel.destroy({
+router.delete("/:id", async (req, res) => {
+  await ArtistModel.destroy({
     where: { id: req.params.id },
-  }).then(() => {
-    res.json({
-      message: `Artist with id ${req.params.id} was deleted`,
-    });
+  });
+  res.json({
+    message: `Artist with id ${req.params.id} was deleted`,
   });
 });
 

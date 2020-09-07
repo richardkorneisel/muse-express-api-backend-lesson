@@ -3,61 +3,51 @@ const router = express.Router();
 
 const UserModel = require("../models").User;
 const ArtistModel = require("../models").Artist;
+const SongModel = require("../models").Song;
+
+// CREATE A NEW SONG FOR AN ARTIST
+router.post("/:id/newsong", async (req, res) => {
+  let artist = await ArtistModel.findByPk(req.params.id);
+  let song = await artist.createSong(req.body);
+  res.json({ artist, song });
+});
 
 // GET ARTIST PROFILE
-router.get("/profile/:id", (req, res) => {
-  ArtistModel.findByPk(req.params.id, {
-    include: [
-      {
-        model: UserModel,
-        attributes: ["id", "name"],
-      },
-    ],
-  }).then((artistProfile) => {
-    res.json({
-      artist: artistProfile,
-    });
+router.get("/profile/:id", async (req, res) => {
+  let artist = await ArtistModel.findByPk(req.params.id, {
+    include: [{ model: UserModel, attributes: ["id", "name"] }],
   });
+  res.json({ artist });
 });
 
 // GET ALL ARTISTS
-router.get("/", (req, res) => {
-  ArtistModel.findAll().then((allArtists) => {
-    res.json({
-      artists: allArtists,
-    });
-  });
+router.get("/", async (req, res) => {
+  let allArtists = await ArtistModel.findAll();
+  res.json({ allArtists });
 });
 
 // CREATE A NEW ARTIST
-router.post("/", (req, res) => {
-  ArtistModel.create(req.body).then((newArtist) => {
-    res.json({
-      artist: newArtist,
-    });
-  });
+router.post("/", async (req, res) => {
+  let newArtist = await ArtistModel.create(req.body);
+  res.json({ newArtist });
 });
 
 // UPDATE A ARTIST
-router.put("/:id", (req, res) => {
-  ArtistModel.update(req.body, {
+router.put("/:id", async (req, res) => {
+  let updatedArtist = await ArtistModel.update(req.body, {
     where: { id: req.params.id },
     returning: true,
-  }).then((updatedArtist) => {
-    res.json({
-      artist: updatedArtist,
-    });
   });
+  res.json({ updatedArtist });
 });
 
 // DELETE A ARTIST
-router.delete("/:id", (req, res) => {
-  ArtistModel.destroy({
+router.delete("/:id", async (req, res) => {
+  await ArtistModel.destroy({
     where: { id: req.params.id },
-  }).then(() => {
-    res.json({
-      message: `Artist with id ${req.params.id} was deleted`,
-    });
+  });
+  res.json({
+    message: `Artist with id ${req.params.id} was deleted`,
   });
 });
 

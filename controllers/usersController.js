@@ -5,54 +5,41 @@ const UserModel = require("../models").User;
 const ArtistModel = require("../models").Artist;
 
 // GET USER PROFILE
-router.get("/profile/:id", (req, res) => {
-  UserModel.findByPk(req.params.id, { include: ArtistModel }).then(
-    (userProfile) => {
-      res.json({
-        user: userProfile,
-      });
-    }
-  );
+router.get("/profile/:id", async (req, res) => {
+  let user = await UserModel.findByPk(req.params.id, {
+    include: ArtistModel,
+  });
+  res.json({ user });
 });
 
 // GET ALL USERS
-router.get("/", (req, res) => {
-  UserModel.findAll().then((allUsers) => {
-    res.json({
-      users: allUsers,
-    });
-  });
+router.get("/", async (req, res) => {
+  let users = await UserModel.findAll();
+  res.json({ users });
 });
 
 // CREATE A NEW USER
-router.post("/", (req, res) => {
-  UserModel.create(req.body).then((newUser) => {
-    res.json({
-      user: newUser,
-    });
-  });
+router.post("/", async (req, res) => {
+  let user = await UserModel.create(req.body);
+  res.json({ user });
 });
 
 // UPDATE A USER
-router.put("/:id", (req, res) => {
-  UserModel.update(req.body, {
+router.put("/:id", async (req, res) => {
+  let user = await UserModel.update(req.body, {
     where: { id: req.params.id },
     returning: true,
-  }).then((updatedUser) => {
-    res.json({
-      user: updatedUser,
-    });
   });
+  res.json({ user });
 });
 
 // DELETE A USER
-router.delete("/:id", (req, res) => {
-  UserModel.destroy({
+router.delete("/:id", async (req, res) => {
+  await UserModel.destroy({
     where: { id: req.params.id },
-  }).then(() => {
-    res.json({
-      message: `User with id ${req.params.id} was deleted`,
-    });
+  });
+  res.json({
+    message: `User with id ${req.params.id} was deleted`,
   });
 });
 
