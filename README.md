@@ -12,6 +12,32 @@ app.use("/api/auth", require("./controllers/authController.js"));
 app.use("/api/users", require("./controllers/usersController.js"));
 ```
 
+<br>
+
+## Our goal
+
+[Heroku Muse Backend](https://muse-backend.herokuapp.com/)
+[The completed code is on a solution branch in this repo](https://github.com/marcwright/muse-backend/tree/solution)
+
+#### API Endpoints - `usersController`
+
+- `GET` - `localhost:3000/api/users/profile/:id`
+- `GET` - `localhost:3000/api/users`
+- `POST` - `localhost:3000/api/users`
+- `PUT` - `localhost:3000/api/users/:id`
+- `DELETE` - `localhost:3000/api/users/:id`
+
+#### API Endpoints - `artistsController`
+
+- `GET` - `localhost:3000/api/artists/profile/:id`
+- `GET` - `localhost:3000/api/artists`
+- `POST` - `localhost:3000/api/artists`
+- `PUT` - `localhost:3000/api/artists/:id`
+- `DELETE` - `localhost:3000/api/artists/:id`
+- `POST` - `localhost:3000/api/artists/:id/newsong`
+
+<br>
+
 ## Set Up
 
 1. Fork and clone this repo
@@ -346,6 +372,7 @@ module.exports = router;
 ## Heroku Deployment
 
 - [node-express-heroku-deployment](https://git.generalassemb.ly/jdr-0622/node-express-heroku-deployment)
+- [Heroku Manage Config Variables](https://devcenter.heroku.com/articles/config-vars#managing-config-vars)
 
 <br>
 
