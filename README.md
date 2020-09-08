@@ -18,7 +18,7 @@ app.use("/api/users", require("./controllers/usersController.js"));
 
 - [Heroku Muse Express API Backend](https://muse-backend.herokuapp.com/)
 - [Heroku Muse React Frontend](https://muse-react-frontend.herokuapp.com/)
-- [The completed code is on a solution branch in this repo](https://github.com/marcwright/muse-backend/tree/solution)
+- The completed code is on a `solution` branch in this repo
 
 <br>
 
