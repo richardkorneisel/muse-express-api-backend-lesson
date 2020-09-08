@@ -65,7 +65,7 @@ app.use("/api/users", require("./controllers/usersController.js"));
    $ createdb muse_development
    ```
 
-1. Sequelize is included in the app. You have a `User` model. Run `db:migrate` to create the `Users` table in your database.
+1. Sequelize is included in the app. You have a `User` model. Run `npx sequelize db:migrate` to create the `Users` table in your database.
 
 1. Run `nodemon`.
 1. Open Postman to confirm that your app is working on `localhost:3000/`.
@@ -212,6 +212,13 @@ We'll need 4 tables:
 1. `GET` - `localhost:3000/api/users/profile/:id` will return JSON for a user's profile. We're provided a profile route, but let's also return a user's favorite artists also.
 
    ```js
+    // MAKE SURE TO REQUIRE THE SEQUELIZE ARTIST MODEL AT THE TOP...
+
+    const UserModel = require("../models").User;
+    const ArtistModel = require("../models").Artist; 
+   ```
+
+   ```js
    // GET USER PROFILE
    router.get("/profile/:id", async (req, res) => {
      let user = await UserModel.findByPk(req.params.id, {
@@ -296,7 +303,7 @@ We'll need 4 tables:
 
 ## YOU DO: Create new song and Artist routes
 
-1. Create an `controllers/artistsController.js` controller file.
+1. Create a `controllers/artistsController.js` controller file.
 2. `require` and `app.use()` the route in `server.js`
 3. Build these 5 routes
 
