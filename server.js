@@ -7,10 +7,6 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const createError = require("http-errors");
 
-// This is some sequelize magic that will automatically create the tables in your database by syncing with your Sequelize models.
-const db = require("./models");
-db.sequelize.sync();
-
 const verifyToken = (req, res, next) => {
   let token = req.cookies.jwt;
   // COOKIE PARSER GIVES YOU A .cookies PROP, WE NAMED OUR TOKEN jwt
