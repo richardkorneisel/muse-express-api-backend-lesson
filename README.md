@@ -305,7 +305,7 @@ We'll need 4 tables:
 
 1. Create a `controllers/artistsController.js` controller file.
 2. `require` and `app.use()` the route in `server.js`
-3. Build these 5 routes
+3. Build these 6 routes
 
    - `GET` - `localhost:3000/api/artists/profile/:id`
      - This route should return the users that favorited an Artist
@@ -318,7 +318,7 @@ We'll need 4 tables:
 
      - This route should create a new song for an artist.
      - It will return the Artist and the New Song
-     - [See if you can do it this way](https://sequelize.org/master/manual/assocs.html)
+     - - Check out the "Special methods/mixins added to instances" for a [bonus way to add a new Song to an Artist](https://sequelize.org/master/manual/assocs.html)
 
      ![](https://i.imgur.com/nBGNf0c.png)
 
