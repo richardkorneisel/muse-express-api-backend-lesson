@@ -19,6 +19,15 @@ app.use("/api/users", require("./controllers/usersController.js"));
 [Heroku Muse Backend](https://muse-backend.herokuapp.com/)
 [The completed code is on a solution branch in this repo](https://github.com/marcwright/muse-backend/tree/solution)
 
+<br>
+
+## Why build an API only backend app?
+
+  - Modular, easier to spin up a new instance on AWS/Azure if the server goes down or if you need more bandwidth.
+  - Difficult if not impossible to build ejs static views for every type of device (Desktop, iphone, android, etc). It's better to just serve the data and let other front-end applications consume the data.
+
+<br>
+
 #### API Endpoints - `usersController`
 
 - `GET` - `localhost:3000/api/users/profile/:id`
@@ -84,11 +93,11 @@ You have the following routes available.
 
 <br>
 
-## Generate `Song`, `Artist` , and `UserArtist` Models
+## Generate `Song`, `Artist` , and `UserArtists` Models
 
 This is the ERD for what we'll build.
 
-![](https://i.imgur.com/wEBgHJe.jpg)
+![](https://i.imgur.com/M8OTXsv.jpg)
 
 We'll need 4 tables:
 
@@ -333,7 +342,7 @@ router.get("/profile/:id", async (req, res) => {
 
 // GET ALL ARTISTS
 router.get("/", async (req, res) => {
-  let allArtists = await ArtistModel.findAll();
+  let allArtists = await ArtistModel.findAll({ include: SongModel });
   res.json({ allArtists });
 });
 
@@ -349,7 +358,10 @@ router.put("/:id", async (req, res) => {
     where: { id: req.params.id },
     returning: true,
   });
-  res.json({ updatedArtist });
+  let artist = await ArtistModel.findByPk(req.params.id, {
+    include: SongModel,
+  });
+  res.json({ artist });
 });
 
 // DELETE A ARTIST
