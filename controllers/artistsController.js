@@ -38,7 +38,10 @@ router.put("/:id", async (req, res) => {
     where: { id: req.params.id },
     returning: true,
   });
-  res.json({ updatedArtist });
+  let artist = await ArtistModel.findByPk(req.params.id, {
+    include: [{ model: UserModel, attributes: ["id", "name"] }],
+  });
+  res.json({ artist });
 });
 
 // DELETE A ARTIST
