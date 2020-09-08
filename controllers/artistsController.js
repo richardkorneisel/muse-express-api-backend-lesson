@@ -39,7 +39,7 @@ router.put("/:id", async (req, res) => {
     returning: true,
   });
   let artist = await ArtistModel.findByPk(req.params.id, {
-    include: [{ model: UserModel, attributes: ["id", "name"] }],
+    include: SongModel,
   });
   res.json({ artist });
 });
