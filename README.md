@@ -137,7 +137,7 @@ We'll need 4 tables:
 
    ```js
    static associate(models) {
-      Artist.hasMany(models.Song, { foreignKey: "songId" });
+      Artist.hasMany(models.Song, { foreignKey: "artistId" });
       Artist.belongsToMany(models.User, {
         through: "UserArtist",
         foreignKey: "artistId",
