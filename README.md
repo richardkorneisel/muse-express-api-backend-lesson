@@ -391,14 +391,14 @@ module.exports = router;
 
 ## Heroku Deployment
 
-- [node-express-heroku-deployment](https://git.generalassemb.ly/jdr-0622/node-express-heroku-deployment)
+- [node-express-heroku-deployment](https://git.generalassemb.ly/JDR-09-22/node-express-heroku-deployment?organization=JDR-09-22)
 - [Heroku Manage Config Variables](https://devcenter.heroku.com/articles/config-vars#managing-config-vars)
 
 <br>
 
 ## Additional Resources
 
-- [Fruit App Solution](https://git.generalassemb.ly/jdr-0622/fruit-app-in-class)
-- [Pokemon Express Solution](https://git.generalassemb.ly/jdr-0622/pokemon-express-sequelize6)
+- [Fruit App Solution](https://git.generalassemb.ly/JDR-09-22/fruit-app-in-class)
+- [Pokemon Express Solution](https://git.generalassemb.ly/JDR-09-22/pokemon-express-sequelize6)
 - [Google Routes Spreadsheet](https://docs.google.com/spreadsheets/d/14-LHKXLtEkp_vKEz3qSKjREnrmSyzQ9fimTlmrPsZsQ/edit#gid=0)
 - [JSON Web Tokens](https://jwt.io/)
