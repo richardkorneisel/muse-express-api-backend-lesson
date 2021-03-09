@@ -18,11 +18,7 @@ app.use("/api/users", require("./controllers/usersController.js"));
 
 - [Heroku Muse Express API Backend](https://muse-backend.herokuapp.com/)
 - [Heroku Muse React Frontend](https://muse-react-frontend.herokuapp.com/)
-<<<<<<< HEAD
-- The completed code is on a `solution` branch in this repo
-=======
 - [The completed code is on a solution branch in this repo](https://github.com/marcwright/muse-backend/tree/solution)
->>>>>>> solution
 
 <br>
 
@@ -34,7 +30,6 @@ app.use("/api/users", require("./controllers/usersController.js"));
 <br>
 
 #### API Endpoints - `usersController`
-<<<<<<< HEAD
 
 - `GET` - `localhost:3000/api/users/profile/:id`
 - `GET` - `localhost:3000/api/users`
@@ -51,24 +46,6 @@ app.use("/api/users", require("./controllers/usersController.js"));
 - `DELETE` - `localhost:3000/api/artists/:id`
 - `POST` - `localhost:3000/api/artists/:id/newsong`
 
-=======
-
-- `GET` - `localhost:3000/api/users/profile/:id`
-- `GET` - `localhost:3000/api/users`
-- `POST` - `localhost:3000/api/users`
-- `PUT` - `localhost:3000/api/users/:id`
-- `DELETE` - `localhost:3000/api/users/:id`
-
-#### API Endpoints - `artistsController`
-
-- `GET` - `localhost:3000/api/artists/profile/:id`
-- `GET` - `localhost:3000/api/artists`
-- `POST` - `localhost:3000/api/artists`
-- `PUT` - `localhost:3000/api/artists/:id`
-- `DELETE` - `localhost:3000/api/artists/:id`
-- `POST` - `localhost:3000/api/artists/:id/newsong`
-
->>>>>>> solution
 <br>
 
 ## Set Up
@@ -88,11 +65,7 @@ app.use("/api/users", require("./controllers/usersController.js"));
    $ createdb muse_development
    ```
 
-<<<<<<< HEAD
 1. Sequelize is included in the app. You have a `User` model. Run `npx sequelize db:migrate` to create the `Users` table in your database.
-=======
-1. Sequelize is included in the app. You have a `User` model. Run `db:migrate` to create the `Users` table in your database.
->>>>>>> solution
 
 1. Run `nodemon`.
 1. Open Postman to confirm that your app is working on `localhost:3000/`.
@@ -164,11 +137,7 @@ We'll need 4 tables:
 
    ```js
    static associate(models) {
-<<<<<<< HEAD
       Artist.hasMany(models.Song, { foreignKey: "artistId" });
-=======
-      Artist.hasMany(models.Song, { foreignKey: "songId" });
->>>>>>> solution
       Artist.belongsToMany(models.User, {
         through: "UserArtist",
         foreignKey: "artistId",
@@ -243,7 +212,6 @@ We'll need 4 tables:
 1. `GET` - `localhost:3000/api/users/profile/:id` will return JSON for a user's profile. We're provided a profile route, but let's also return a user's favorite artists also.
 
    ```js
-<<<<<<< HEAD
     // MAKE SURE TO REQUIRE THE SEQUELIZE ARTIST MODEL AT THE TOP...
 
     const UserModel = require("../models").User;
@@ -251,8 +219,6 @@ We'll need 4 tables:
    ```
 
    ```js
-=======
->>>>>>> solution
    // GET USER PROFILE
    router.get("/profile/:id", async (req, res) => {
      let user = await UserModel.findByPk(req.params.id, {
@@ -337,15 +303,9 @@ We'll need 4 tables:
 
 ## YOU DO: Create new song and Artist routes
 
-<<<<<<< HEAD
 1. Create a `controllers/artistsController.js` controller file.
 2. `require` and `app.use()` the route in `server.js`
 3. Build these 6 routes
-=======
-1. Create an `controllers/artistsController.js` controller file.
-2. `require` and `app.use()` the route in `server.js`
-3. Build these 5 routes
->>>>>>> solution
 
    - `GET` - `localhost:3000/api/artists/profile/:id`
      - This route should return the users that favorited an Artist
@@ -358,11 +318,7 @@ We'll need 4 tables:
 
      - This route should create a new song for an artist.
      - It will return the Artist and the New Song
-<<<<<<< HEAD
-     - - Check out the "Special methods/mixins added to instances" for a [bonus way to add a new Song to an Artist](https://sequelize.org/master/manual/assocs.html)
-=======
      - Check out the "Special methods/mixins added to instances" for a [bonus way to add a new Song to an Artist](https://sequelize.org/master/manual/assocs.html)
->>>>>>> solution
 
      ![](https://i.imgur.com/nBGNf0c.png)
 
@@ -435,11 +391,7 @@ module.exports = router;
 
 ## Heroku Deployment
 
-<<<<<<< HEAD
-- [node-express-heroku-deployment](https://git.generalassemb.ly/JDR-09-22/node-express-heroku-deployment?organization=JDR-09-22)
-=======
 - [node-express-heroku-deployment](https://git.generalassemb.ly/jdr-0622/node-express-heroku-deployment)
->>>>>>> solution
 - [Heroku Manage Config Variables](https://devcenter.heroku.com/articles/config-vars#managing-config-vars)
 
 <br>
