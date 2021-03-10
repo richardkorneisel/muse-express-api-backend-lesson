@@ -37,7 +37,7 @@ router.post("/signup", (req, res) => {
           console.log(token);
           // res.cookie("jwt", token); // SEND A NEW COOKIE TO THE BROWSER TO STORE TOKEN
           // res.redirect(`/users/profile/${newUser.id}`);
-          res.json({ token });
+          res.json({ token });  //returns json data
         })
         .catch((err) => {
           console.log(err);
